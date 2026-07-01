@@ -1,0 +1,5 @@
+CREATE TABLE passwords (
+    id INT PRIMARY KEY NOT NULL,    
+    password VARCHAR(255) NOT NULL, 
+    FOREIGN KEY (id) REFERENCES nurse(id) ON DELETE CASCADE
+);
