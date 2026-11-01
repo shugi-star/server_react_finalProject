@@ -1,37 +1,51 @@
-# Patient Monitoring System
+# Patient Monitoring System — Main Backend
 
 ## Overview
 
-A full-stack patient monitoring system designed to help hospital nurses view patients' monitor data in real time through a centralized interface.
+The Main Backend is a core component of a full-stack patient monitoring system designed to support hospital nursing workflows.
 
-The goal of the system is to make patient monitoring information accessible to nurses through a user-friendly interface, helping them view patient-related information and receive real-time monitoring updates.
+The system provides a centralized interface for nurses to access patient-related information and monitoring updates.
 
-The system consists of three interconnected components:
+This repository contains the main server-side application, built with Node.js and Express. It provides REST API endpoints for patient, nurse, and bed-related data and serves as the primary backend for the frontend and monitoring service.
 
-- **Frontend:** A React application that provides the user interface for viewing patient information and monitoring data.
-- **Main Backend:** A Node.js and Express server that provides API endpoints for patient, nurse, and bed-related data.
-- **Monitoring Server:** A separate Node.js service that uses WebSockets to support real-time monitoring updates.
-
-Together, these components demonstrate a multi-service architecture that combines frontend development, REST API integration, and real-time communication.
+This repository is part of a larger project composed of three interconnected repositories, working together as a multi-service application.
 
 ## System Architecture
 
+The complete system consists of three independent but interconnected components:
+
+- **Frontend:** A React application providing the user interface.
+- **Main Backend:** A Node.js and Express server providing REST API endpoints.
+- **Monitoring Server:** A separate Node.js service supporting real-time communication through WebSockets.
+
+### Architecture Diagram
+
 ```text
-               Hospital Nurses
-                      |
-                      v
-                React Frontend
-                 /          \
-                v            v
-           REST API       WebSocket
-                |            |
-                v            v
-          Main Backend   Monitoring Server
-          Node.js/Express  Node.js/Express
-                |
-                v
-        Patient-related data
+                  Hospital Nurses
+                         |
+                         v
+                   React Frontend
+                    /          \
+                   v            v
+              REST API       WebSocket
+                   |            |
+                   v            v
+             Main Backend   Monitoring Server
+             Node.js/Express Node.js/Express
+                   |
+                   v
+           Patient-related data
 ```
+
+## Related Repositories
+
+This project is divided into three repositories:
+
+| Component | Repository | Technology |
+|---|---|---|
+| Frontend | [client_react_finalProject](https://github.com/shugi-star/client_react_finalProject) | React |
+| Main Backend | [server_react_finalProject](https://github.com/shugi-star/server_react_finalProject) | Node.js, Express |
+| Monitoring Server | [monitor_demo_react](https://github.com/shugi-star/monitor_demo_react) | Node.js, Express, WebSockets |
 
 ## Technologies
 
@@ -39,26 +53,20 @@ Together, these components demonstrate a multi-service architecture that combine
 - Express.js
 - JavaScript
 - REST APIs
-- MySQL-related dependencies
+- MySQL2
 - dotenv
 - CORS
-- bcrypt and JSON Web Token (JWT) dependencies
 
-## Main Backend — This Repository
-
-This repository contains the main backend service.
-
-It provides API endpoints for patient-, nurse-, and bed-related data and serves as a central backend component for the React frontend and the monitoring service.
-
-### Responsibilities
+## Responsibilities
 
 - Handling HTTP requests.
 - Providing REST API endpoints.
-- Processing requests related to patients, nurses, and beds.
-- Supporting communication between the frontend and backend services.
-- Managing server configuration through environment variables where applicable.
+- Processing patient-, nurse-, and bed-related requests.
+- Supporting communication with the frontend.
+- Providing patient-related data to the monitoring service.
+- Managing server configuration through environment variables.
 
-### Main API Route Groups
+## Main API Route Groups
 
 | Route | Purpose |
 |---|---|
@@ -66,77 +74,104 @@ It provides API endpoints for patient-, nurse-, and bed-related data and serves 
 | `/nurse` | Nurse-related API |
 | `/beds` | Bed-related API |
 
-The exact operations supported by each route depend on the implementation.
+## Running the Complete System Locally
 
-## Running Locally
+The application consists of three services. Each repository must be cloned and run separately.
 
 ### Prerequisites
 
 - Node.js and npm installed.
-- The repository cloned to your computer.
-- Any required database services and environment variables configured, if applicable.
+- Git installed.
+- MySQL available if required by the application configuration.
 
-### 1. Install Dependencies
+### 1. Clone the Repositories
 
-Open a terminal in the `server_react_finalProject` directory and run:
+```bash
+git clone https://github.com/shugi-star/server_react_finalProject.git
+git clone https://github.com/shugi-star/monitor_demo_react.git
+git clone https://github.com/shugi-star/client_react_finalProject.git
+```
+
+### 2. Configure the Main Backend
+
+Open a terminal in the `server_react_finalProject` directory:
 
 ```bash
 npm install
 ```
 
-### 2. Configure Environment Variables
+Create a local `.env` file with the environment variables expected by the application.
 
-If the application requires environment variables, create a local `.env` file using the variable names expected by the code.
+Configure the database connection settings if required.
 
-Do not commit real passwords, tokens, or secret keys to GitHub.
+Do not commit passwords, tokens, or other sensitive credentials.
 
-If a database is required, make sure it is running and that the local connection settings are correct.
-
-### 3. Start the Backend
-
-Run:
+### 3. Start the Main Backend
 
 ```bash
 npm start
 ```
 
-The server uses port `3001` by default, unless a different port is configured through the `PORT` environment variable.
+The server uses port `3001` by default. A different port can be configured through the `PORT` environment variable.
 
-The local server address is typically:
+The local server address is:
 
 ```text
 http://localhost:3001
 ```
 
-### 4. Verify the Server
-
-Open the following address in your browser:
+The root endpoint can be used to verify that the server responds:
 
 ```text
 http://localhost:3001/
 ```
 
-The root endpoint is configured to return:
+It returns:
 
 ```text
 Final Project Server
 ```
 
-## Integration with the Other Components
+### 4. Start the Monitoring Server
 
-The main backend provides data to the frontend and is also used by the monitoring service to retrieve patient-related information.
+Open a separate terminal in the `monitor_demo_react` directory:
 
-For local development, make sure that the frontend and monitoring server use the correct backend URL.
+```bash
+npm install
+node server.js
+```
 
-## Future Improvements
+The monitoring server uses port `3002` by default.
 
-- Document API requests and responses.
-- Add automated API tests.
-- Improve error handling.
-- Document database setup and configuration.
-- Improve authentication and authorization documentation where applicable.
-- Separate development and production configuration.
+### 5. Start the Frontend
+
+Open another terminal in the `client_react_finalProject` directory:
+
+```bash
+npm install
+npm start
+```
+
+The React development server is typically available at:
+
+```text
+http://localhost:3000
+```
+
+### Local Services Overview
+
+| Service | Default Port | Local Address |
+|---|---:|---|
+| Frontend | 3000 | `http://localhost:3000` |
+| Main Backend | 3001 | `http://localhost:3001` |
+| Monitoring Server | 3002 | `ws://localhost:3002/ws/monitorsRealtime` |
+
+### Integration Configuration
+
+For complete local operation, verify that the API paths, backend URLs, WebSocket endpoint, and CORS settings are consistent across all three repositories.
+
+In particular, the patient endpoint used by the monitoring service should match the route exposed by the Main Backend.
 
 ## Project Context
 
-This repository demonstrates backend development, REST API design, and integration between multiple services in a patient monitoring application concept for hospital nursing workflows.
+The Main Backend is part of the **Patient Monitoring System**, a multi-service application demonstrating backend development, REST API design, database integration, and communication between independent application components.
